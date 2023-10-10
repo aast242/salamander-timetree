@@ -17,8 +17,11 @@ from shutil import rmtree
 from pprint import pprint
 import time
 
-Entrez.email = "SETME"
-Entrez.api_key = "SETME"
+from defaults import ProgDefaults as dv
+import utils
+
+Entrez.email = dv.ENTREZ_EMAIL
+Entrez.api_key = dv.ENTREZ_API
 
 parser = argparse.ArgumentParser(description="Program: Salamander Gene Scraper\n"
                                              "Version: 1.0\n",
@@ -34,106 +37,6 @@ parser.add_argument("--include_mrna", action="store_true", help="allows mRNAs in
 # COX2\tCO2\tcytochrome oxidase subunit 2
 
 args = parser.parse_args()
-
-MITO_GOIS = {"nadh dehydrogenase subunit 4": "ND4",
-             "nadh dehydrogenase subunit iv": "ND4",
-
-             "nadh dehydrogenase subunit 2": "ND2",
-             "nadh dehydrogenase subunit ii": "ND2",
-
-             "cytochrome c oxidase subunit 1": "CO1",
-             "cytochrome c oxidase subunit i": "CO1",
-             "cytochrome oxidase subunit 1": "CO1",
-             "cytochrome oxidase subunit i": "CO1",
-             "chytochrome c oxidase subunit 1": "CO1",
-             "chytochrome c oxidase subunit i": "CO1",
-
-             "cytochrome c oxidase subunit 2": "CO2",
-             "cytochrome c oxidase subunit ii": "CO2",
-             "cytochrome oxidase subunit 2": "CO2",
-             "cytochrome oxidase subunit ii": "CO2",
-             "chytochrome c oxidase subunit 2": "CO2",
-             "chytochrome c oxidase subunit ii": "CO2",
-
-             "12s ribosomal rna": "12S",
-             "s-rrna": "12S",
-             "small subunit ribosomal rna": "12S",
-             "12s small subunit ribosomal rna": "12S",
-
-             "16s ribosomal rna": "16S",
-             "16s ribosoaml rna": "16S",
-             "l-rrna": "16S",
-             "large subunit ribosomal rna": "16S",
-             "16s large subunit ribosomal rna": "16S",
-
-
-             "cytochrome b": "cytB",
-             "cytochrome b apoenzyme": "cytB",
-
-             "brain derived neurotrophic factor": "BDNF",
-             "brain-derived neurotrophic factor": "BDNF",
-
-             "rag1": "RAG1",
-             "recombinase activating protein": "RAG1",
-             "recombinase activating protein 1": "RAG1",
-             "recombination activating gene 1": "RAG1",
-             "recombination activating protein 1": "RAG1",
-             "recombination activating protein-1": "RAG1",
-             "recombination activation protein 1": "RAG1",
-             "v(d)j recombinase subunit": "RAG1",
-
-             "pro-opimelanocortin": "POMC",
-             "pro-opiomelanocortin": "POMC",
-             "proopiomelanocortin": "POMC",
-
-             "solute carrier family 8 member 3": "SLC8A3"}
-
-
-# from https://stackoverflow.com/questions/312443/how-do-i-split-a-list-into-equally-sized-chunks
-# authored by Ned Batchelder
-def chunks(lst, n):
-    """Yield successive n-sized chunks from lst."""
-    for i in range(0, len(lst), n):
-        yield lst[i:i + n]
-
-
-def parse_file_head(foi):
-    parse_dict = {}
-    cycle = 0
-    with open(foi, "r") as f:
-        while True:
-            # reads line-by-line to reduce memory load
-            line = f.readline()
-            if not line:
-                break
-            if line.startswith("#"):
-                continue
-
-            line = line.rstrip().split('\t')
-            if cycle == 0:
-                parse_dict.setdefault('header', line)
-            else:
-                parse_dict.setdefault(line[0], line)
-            cycle += 1
-    return parse_dict
-
-
-def parse_file_nohead(foi):
-    parse_dict = {}
-    cycle = 0
-    with open(foi, "r") as f:
-        while True:
-            # reads line-by-line to reduce memory load
-            line = f.readline()
-            if not line:
-                break
-            if line.startswith("#"):
-                continue
-
-            line = line.rstrip().split('\t')
-            parse_dict.setdefault(line[0], line)
-            cycle += 1
-    return parse_dict
 
 
 def create_queries(file_dict):
@@ -187,7 +90,7 @@ def get_genes(query_list):
         handle = Entrez.esearch(db="nucleotide", retmax=count, term=goi)
         #handle = Entrez.esearch(db="nucleotide", retmax=5, term=goi)
         record = Entrez.read(handle)
-        record = list(chunks(record["IdList"], 500))
+        record = list(utils.chunks(record["IdList"], 500))
         handle.close()
         chunk_count = 0
         for chunk in record:
@@ -206,12 +109,12 @@ def get_genes(query_list):
                             #if feat["GBQualifier_name"] == "product":
                             #    all_gene_names.add(feat["GBQualifier_value"].lower())
                             if feat["GBQualifier_name"] == "product" \
-                                    and feat["GBQualifier_value"].lower() in MITO_GOIS.keys():
+                                    and feat["GBQualifier_value"].lower() in dv.MITO_GOIS.keys():
                                 gene_products.append([sample["GBSeq_organism"],
                                                       r["GBFeature_intervals"][0]["GBInterval_accession"],
                                                       "%s:%s" % (r["GBFeature_intervals"][0]["GBInterval_from"],
                                                                  r["GBFeature_intervals"][0]["GBInterval_to"]),
-                                                      MITO_GOIS[feat["GBQualifier_value"].lower()],
+                                                      dv.MITO_GOIS[feat["GBQualifier_value"].lower()],
                                                       sample["GBSeq_create-date"]])
                                 #if sample["GBSeq_organism"] == "Bolitoglossa splendida":
                                 #    print(feat["GBQualifier_value"])
@@ -233,7 +136,7 @@ def get_genes(query_list):
 
 if __name__ == '__main__':
     g_path = Path(args.gene_file).resolve()
-    gene_names = parse_file_nohead(g_path)
+    gene_names = utils.parse_file_nohead_todict(g_path, 0)
     expected_genes = create_queries(gene_names)
     organized_genes = get_genes(expected_genes)
 
@@ -244,10 +147,10 @@ if __name__ == '__main__':
         organized_genes[k].append(str(total_len))
 
     # remove duplicates
-    print(len(organized_genes))
+    # print(len(organized_genes))
     organized_genes.sort()
     organized_genes = list(organized_genes for organized_genes,_ in itertools.groupby(organized_genes))
-    print(len(organized_genes))
+    # print(len(organized_genes))
 
     with open("pulled_genes", 'w') as f:
         for line in organized_genes:

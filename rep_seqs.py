@@ -19,8 +19,11 @@ import sys
 from shutil import rmtree
 from pprint import pprint
 
-Entrez.email = "SETME"
-Entrez.api_key = "SETME"
+import utils
+from defaults import ProgDefaults as dv
+
+Entrez.email = dv.ENTREZ_EMAIL
+Entrez.api_key = dv.ENTREZ_API
 
 parser = argparse.ArgumentParser(description="Program: Salamander Gene Chooser\n"
                                              "Version: 1.0\n",
@@ -34,77 +37,15 @@ parser.add_argument("scraped_genes", help='File containing genes from gene_scrap
 
 args = parser.parse_args()
 
-
-ORDER_DICT = {"species": 0, "accession": 1, "range": 2, "gene": 3, "date": 4, "length": 5}
-OUTDIR_PREFIX = "scraped_sequences"
-COMB_FILE = "all_chunks.fasta"
-EXCLUDE_TERMS = ["unisexual", "cf.", " x "]
-SEQUENCE_DICTIONARY = SeqIO.to_dict(SeqIO.parse("%s/%s" % (OUTDIR_PREFIX, COMB_FILE), "fasta"))
-FOCAL_SEQFILE_NAME = "focal_scraped_sequences.fasta"
-SPP_FILE_NAME = "captured_caudate_taxa"
-
-
-def check_gaps(gene_list):
-    accessions = list(set(k[ORDER_DICT["accession"]] for k in gene_list))
-    accessions.sort()
-
-    ungapped_entries = []
-    orig_gapped = []
-    grouped_accessions = {i: [] for i in accessions}
-    for gene in gene_list:
-        grouped_accessions[gene[ORDER_DICT["accession"]]].append(gene)
-
-    for i in grouped_accessions.keys():
-        acc_count = Counter([j[ORDER_DICT["gene"]] for j in grouped_accessions[i]])
-        max_num_genes = acc_count.most_common()[0][1]
-        if max_num_genes > 1:
-            gapped_genes = [j[0] for j in acc_count.most_common() if j[1] == max_num_genes]
-            for gene in gapped_genes:
-                more_than_two = [j for j in grouped_accessions[i] if j[ORDER_DICT["gene"]] == gene]
-
-                range_nums = []
-                for j in more_than_two:
-                    for k in j[ORDER_DICT["range"]].split(":"):
-                        range_nums.append(int(k))
-                range_nums.sort()
-
-                new_entry = more_than_two[0].copy()
-                new_entry[ORDER_DICT["range"]] = "%s:%s" % (min(range_nums), max(range_nums))
-                new_entry[ORDER_DICT["length"]] = "%s" % (max(range_nums) - min(range_nums))
-                # print(new_entry)
-                ungapped_entries.append(new_entry)
-
-                for j in more_than_two:
-                    orig_gapped.append(j)
-
-    for i in orig_gapped:
-        gene_list.remove(i)
-    for i in ungapped_entries:
-        gene_list.append(i)
-
-    gene_list.sort(key=lambda i: i[ORDER_DICT["species"]])
-
-
-def parse_file_nohead(foi):
-    parse_list = []
-    cycle = 0
-    with open(foi, "r") as f:
-        while True:
-            # reads line-by-line to reduce memory load
-            line = f.readline()
-            if not line:
-                break
-            if line.startswith("#"):
-                continue
-
-            line = line.rstrip().split('\t')
-            parse_list.append(line)
-            cycle += 1
-    return parse_list
+try:
+    SEQUENCE_DICTIONARY = SeqIO.to_dict(SeqIO.parse("%s/%s" % (dv.OUTDIR_PREFIX, dv.COMB_FILE), "fasta"))
+except FileNotFoundError:
+    print("FATAL: The combined fasta file was not found! Did you run the other scripts?")
+    exit()
 
 
 def get_uniq_element(parsed_file, element):
-    return sorted(list(set(i[ORDER_DICT[element]] for i in parsed_file)))
+    return sorted(list(set(i[dv.ORDER_DICT[element]] for i in parsed_file)))
 
 
 def clean_species(spp_list):
@@ -112,7 +53,7 @@ def clean_species(spp_list):
     i = 0
     while i < len(spp_list):
         #print([j in spp_list[i] for j in EXCLUDE_TERMS])
-        if any([j in spp_list[i] for j in EXCLUDE_TERMS]):
+        if any([j in spp_list[i] for j in dv.EXCLUDE_TERMS]):
             removed_spp.append(spp_list.pop(i))
         else:
             i += 1
@@ -143,7 +84,7 @@ def make_gene_dict(spp_list, gene_names, gois):
     final_dict = {i: {j: [] for j in gene_names} for i in spp_list}
     for entry in gois:
         try:
-            final_dict[entry[ORDER_DICT["species"]]][entry[ORDER_DICT["gene"]]].append(entry)
+            final_dict[entry[dv.ORDER_DICT["species"]]][entry[dv.ORDER_DICT["gene"]]].append(entry)
         except KeyError:
             pass
     return final_dict
@@ -156,7 +97,7 @@ def filter_gene_dict(gene_dict):
     for sp in gene_dict.keys():
         for gene in gene_dict[sp].keys():
             if len(gene_dict[sp][gene]) > 1:
-                refseq_entries = ["_" in i[ORDER_DICT["accession"]] for i in gene_dict[sp][gene]]
+                refseq_entries = ["_" in i[dv.ORDER_DICT["accession"]] for i in gene_dict[sp][gene]]
                 refseq_indices = [i for i in range(0, len(refseq_entries)) if refseq_entries[i] is True]
 
                 # if there are refseq entries, those should be the representative sequence
@@ -169,13 +110,13 @@ def filter_gene_dict(gene_dict):
                         # sort by accession first so that order is not determined by the download order
                         # accessions are sorted numerically based on the digits contained
                         refseq_entries.sort(key=lambda i:
-                                            (0, int("".join(findall(r'\d+', i[ORDER_DICT["accession"]]))))
-                                            if len(findall(r'\d+', i[ORDER_DICT["accession"]])) > 0
-                                            else (1, i[ORDER_DICT["accession"]]))
+                                            (0, int("".join(findall(r'\d+', i[dv.ORDER_DICT["accession"]]))))
+                                            if len(findall(r'\d+', i[dv.ORDER_DICT["accession"]])) > 0
+                                            else (1, i[dv.ORDER_DICT["accession"]]))
 
                         # Then sort by length so that the longest is chosen
                         gene_dict[sp][gene] = sorted(refseq_entries,
-                                                     key=lambda i: int(i[ORDER_DICT["length"]]), reverse=True)[0]
+                                                     key=lambda i: int(i[dv.ORDER_DICT["length"]]), reverse=True)[0]
 
                     else:
                         refseq_idx = refseq_indices[0]
@@ -184,20 +125,20 @@ def filter_gene_dict(gene_dict):
                 # if there aren't any refseq entries, the longest should be the representative sequence
                 else:
 
-                    lengths = [int(i[ORDER_DICT["length"]]) for i in gene_dict[sp][gene]]
+                    lengths = [int(i[dv.ORDER_DICT["length"]]) for i in gene_dict[sp][gene]]
                     longest_gene = max(lengths)
 
                     longest_occ = lengths.count(longest_gene)
                     # if all genes are the same length, find the most common sequence from the available sequences
                     if longest_occ > 1:
                         gene_dict[sp][gene] = find_common_seq([i for i in gene_dict[sp][gene] if
-                                                               int(i[ORDER_DICT["length"]]) == longest_gene],
+                                                               int(i[dv.ORDER_DICT["length"]]) == longest_gene],
                                                               SEQUENCE_DICTIONARY)
                         same_ct += 1
-                    # if there's only one longest gene, its the representative sequence
+                    # if there's only one longest gene, it's the representative sequence
                     else:
                         gene_dict[sp][gene] = sorted(gene_dict[sp][gene],
-                                                     key=lambda i: int(i[ORDER_DICT["length"]]), reverse=True)[0]
+                                                     key=lambda i: int(i[dv.ORDER_DICT["length"]]), reverse=True)[0]
                         diff_ct += 1
             elif len(gene_dict[sp][gene]) == 1:
                 gene_dict[sp][gene] = gene_dict[sp][gene][0]
@@ -209,8 +150,8 @@ def find_common_seq(gene_list, seq_dict):
 
     gene_dict = {}
     for gene in gene_list:
-        gene_dict["%s.%s" % (gene[ORDER_DICT["accession"]],  gene[ORDER_DICT["gene"]])] = gene
-        temp_seq = seq_dict["%s.%s" % (gene[ORDER_DICT["accession"]], gene[ORDER_DICT["gene"]])]
+        gene_dict["%s.%s" % (gene[dv.ORDER_DICT["accession"]],  gene[dv.ORDER_DICT["gene"]])] = gene
+        temp_seq = seq_dict["%s.%s" % (gene[dv.ORDER_DICT["accession"]], gene[dv.ORDER_DICT["gene"]])]
         record_list.append(temp_seq)
     seq_list = [i.seq.count("N") for i in record_list]
 
@@ -232,14 +173,14 @@ def find_common_seq(gene_list, seq_dict):
         focal_genes = [gene_dict[i.id] for i in least_ambig]
         # Sort by dates so that more recent sequences come first
         old_focal = focal_genes.copy()
-        focal_genes.sort(key=lambda i: datetime.strptime(i[ORDER_DICT["date"]], "%d-%b-%Y"), reverse=True)
+        focal_genes.sort(key=lambda i: datetime.strptime(i[dv.ORDER_DICT["date"]], "%d-%b-%Y"), reverse=True)
 
         if old_focal != focal_genes:
-            focal_genes = [i for i in focal_genes if i[ORDER_DICT["date"]] == focal_genes[0][ORDER_DICT["date"]]]
+            focal_genes = [i for i in focal_genes if i[dv.ORDER_DICT["date"]] == focal_genes[0][dv.ORDER_DICT["date"]]]
 
-        focal_genes.sort(key=lambda i: (0, int("".join(findall(r'\d+', i[ORDER_DICT["accession"]]))))
-                         if len(findall(r'\d+', i[ORDER_DICT["accession"]])) > 0
-                         else (1, i[ORDER_DICT["accession"]]))
+        focal_genes.sort(key=lambda i: (0, int("".join(findall(r'\d+', i[dv.ORDER_DICT["accession"]]))))
+                         if len(findall(r'\d+', i[dv.ORDER_DICT["accession"]])) > 0
+                         else (1, i[dv.ORDER_DICT["accession"]]))
 
         # if more than one sequence is the most recent, choose the one at the beginning of the list
         # TODO: this part doesn't have logic behind it except that one sequence has to be chosen!
@@ -270,7 +211,7 @@ def make_acc_matrix(rep_gene_matrix):
             if not rep_gene_matrix[i][j]:
                 temp_list.append("")
             else:
-                temp_list.append(rep_gene_matrix[i][j][ORDER_DICT["accession"]])
+                temp_list.append(rep_gene_matrix[i][j][dv.ORDER_DICT["accession"]])
         final_acc_matrix.append(temp_list)
 
     gene_names.insert(0, "species")
@@ -288,12 +229,12 @@ def write_focal_genes(rep_gene_matrix):
     for sp in spp_names:
         for gene in gene_names:
             if rep_gene_matrix[sp][gene] != []:
-                focal_genes.append("%s.%s" % (rep_gene_matrix[sp][gene][ORDER_DICT["accession"]],
-                                              rep_gene_matrix[sp][gene][ORDER_DICT["gene"]]))
+                focal_genes.append("%s.%s" % (rep_gene_matrix[sp][gene][dv.ORDER_DICT["accession"]],
+                                              rep_gene_matrix[sp][gene][dv.ORDER_DICT["gene"]]))
     for acc in focal_genes:
         focal_seqs.append(SEQUENCE_DICTIONARY[acc])
 
-    SeqIO.write(focal_seqs, FOCAL_SEQFILE_NAME, "fasta")
+    SeqIO.write(focal_seqs, dv.FOCAL_SEQFILE_NAME, "fasta")
 
 
 def write_2d_matrix(focal_matrix, file_handle):
@@ -307,15 +248,15 @@ def write_2d_matrix(focal_matrix, file_handle):
 
 def recalculate_gene_length(gene_list):
     for gene in gene_list:
-        gene_seq = SEQUENCE_DICTIONARY["%s.%s" % (gene[ORDER_DICT["accession"]], gene[ORDER_DICT["gene"]])].seq
+        gene_seq = SEQUENCE_DICTIONARY["%s.%s" % (gene[dv.ORDER_DICT["accession"]], gene[dv.ORDER_DICT["gene"]])].seq
         new_length = len(gene_seq) - gene_seq.count("N")
-        gene[ORDER_DICT["length"]] = new_length
+        gene[dv.ORDER_DICT["length"]] = new_length
 
 
 if __name__ == '__main__':
     g_path = Path(args.scraped_genes).resolve()
-    g_list = parse_file_nohead(g_path)
-    check_gaps(g_list)
+    g_list = utils.parse_file_nohead_tolist(g_path)
+    utils.check_gaps(g_list)
     recalculate_gene_length(g_list)
 
     uniq_genes = get_uniq_element(g_list, "gene")
@@ -328,7 +269,7 @@ if __name__ == '__main__':
     # filter out undefined species
     uniq_spp = [x for x in uniq_spp if " sp." not in x]
     # write a taxonomy file
-    with open(SPP_FILE_NAME, 'w') as species_file:
+    with open(dv.SPP_FILE_NAME, 'w') as species_file:
         for x in uniq_spp:
             species_file.write(x)
             species_file.write("\n")
