@@ -29,7 +29,8 @@ parser = argparse.ArgumentParser(description="Program: Salamander Gene Chooser\n
                                              "Version: 1.0\n",
                                  formatter_class=argparse.RawDescriptionHelpFormatter,
                                  usage='%(prog)s gene_file [options]')
-parser.add_argument("scraped_genes", help='File containing genes from gene_scraper.py', type=str)
+parser.add_argument("scraped_genes_table", help='File containing genes from gene_scraper.py', type=str)
+parser.add_argument("scraped_genes_fasta", help='File containing genes from gene_scraper.py', type=str)
 
 # Gene file is organized so that each gene is on a line and synonyms for that gene are tab delieted on the line. eg,
 # COX1\tCO1\tcytochrome oxidase subunit 1
@@ -37,11 +38,7 @@ parser.add_argument("scraped_genes", help='File containing genes from gene_scrap
 
 args = parser.parse_args()
 
-try:
-    SEQUENCE_DICTIONARY = SeqIO.to_dict(SeqIO.parse("%s/%s" % (dv.OUTDIR_PREFIX, dv.COMB_FILE), "fasta"))
-except FileNotFoundError:
-    print("FATAL: The combined fasta file was not found! Did you run the other scripts?")
-    exit()
+SEQUENCE_DICTIONARY = SeqIO.to_dict(SeqIO.parse(args.scraped_genes_fasta, "fasta"))
 
 
 def get_uniq_element(parsed_file, element):
@@ -211,7 +208,8 @@ def make_acc_matrix(rep_gene_matrix):
             if not rep_gene_matrix[i][j]:
                 temp_list.append("")
             else:
-                temp_list.append(rep_gene_matrix[i][j][dv.ORDER_DICT["accession"]])
+                temp_list.append("%s.%s" % (rep_gene_matrix[i][j][dv.ORDER_DICT["accession"]],
+                                            rep_gene_matrix[i][j][dv.ORDER_DICT["gene"]]))
         final_acc_matrix.append(temp_list)
 
     gene_names.insert(0, "species")
@@ -234,7 +232,9 @@ def write_focal_genes(rep_gene_matrix):
     for acc in focal_genes:
         focal_seqs.append(SEQUENCE_DICTIONARY[acc])
 
-    SeqIO.write(focal_seqs, dv.FOCAL_SEQFILE_NAME, "fasta")
+    SeqIO.write(focal_seqs,
+                "%s/representative_%s" % (Path(args.scraped_genes_fasta).parent, Path(args.scraped_genes_fasta).name),
+                "fasta")
 
 
 def write_2d_matrix(focal_matrix, file_handle):
@@ -254,7 +254,7 @@ def recalculate_gene_length(gene_list):
 
 
 if __name__ == '__main__':
-    g_path = Path(args.scraped_genes).resolve()
+    g_path = Path(args.scraped_genes_table).resolve()
     g_list = utils.parse_file_nohead_tolist(g_path)
     utils.check_gaps(g_list)
     recalculate_gene_length(g_list)
@@ -265,7 +265,10 @@ if __name__ == '__main__':
     aberrant_spp = clean_species(uniq_spp)
     novels, subs = get_weird_spp(uniq_spp)
 
-    uniq_spp = [x for x in uniq_spp if x not in novels and x not in subs]
+    # uniq_spp = [x for x in uniq_spp if x not in novels and x not in subs]
+
+    uniq_spp = [x for x in uniq_spp if x not in novels]
+
     # filter out undefined species
     uniq_spp = [x for x in uniq_spp if " sp." not in x]
     # write a taxonomy file
@@ -282,7 +285,7 @@ if __name__ == '__main__':
 
     # print(uniq_spp_dict[test_sp])
     write_focal_genes(uniq_spp_dict)
-    write_2d_matrix(make_acc_matrix(uniq_spp_dict), "scraped_matrix")
+    write_2d_matrix(make_acc_matrix(uniq_spp_dict), "representative_scraped_seq_matrix.txt")
 
     exit()
     nov_spp_dict = make_gene_dict(novels, uniq_genes, g_list)

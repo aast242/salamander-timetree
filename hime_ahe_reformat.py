@@ -25,7 +25,7 @@ import utils
 Entrez.email = dv.ENTREZ_EMAIL
 Entrez.api_key = dv.ENTREZ_API
 
-parser = argparse.ArgumentParser(description="Program: Hime et al. AHE reformatting\n"
+parser = argparse.ArgumentParser(description="Program: Hime et al. AHE Reformatting\n"
                                              "Version: 1.0\n",
                                  formatter_class=argparse.RawDescriptionHelpFormatter,
                                  usage='%(prog)s gene_file [options]')

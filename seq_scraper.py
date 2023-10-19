@@ -106,7 +106,7 @@ def subsequence_files(accessions, sequences):
             temp_subseq.description = "%s %s" % (k[dv.ORDER_DICT["species"]], k[dv.ORDER_DICT["gene"]])
 
             renamed_records.append(temp_subseq)
-    SeqIO.write(renamed_records, "%s/%s" % (dv.OUTDIR_PREFIX, dv.COMB_FILE), "fasta")
+    SeqIO.write(renamed_records, "%s/%s.fasta" % (dv.OUTDIR_PREFIX, dv.COMB_FILE), "fasta")
 
 
 if __name__ == '__main__':

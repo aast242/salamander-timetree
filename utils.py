@@ -94,7 +94,7 @@ def check_gaps(gene_list):
                 new_entry = more_than_two[0].copy()
                 new_entry[dv.ORDER_DICT["range"]] = "%s:%s" % (min(range_nums), max(range_nums))
                 new_entry[dv.ORDER_DICT["length"]] = "%s" % (max(range_nums) - min(range_nums))
-                # print(new_entry)
+                print(new_entry)
                 ungapped_entries.append(new_entry)
 
                 for j in more_than_two:
@@ -106,3 +106,23 @@ def check_gaps(gene_list):
         gene_list.append(i)
 
     gene_list.sort(key=lambda i: i[dv.ORDER_DICT["species"]])
+
+
+def update_gene_dict_from_file(update_file, ref_dict):
+    temp_add_dict = parse_file_nohead_tolist(update_file)
+    temp_add_dict = [[b.replace("\"", "") for b in m] for m in temp_add_dict if m != ['']]
+
+    if len(set(m[1] for m in temp_add_dict)) != len(temp_add_dict):
+        print("FATAL: Ambiguity in add_dict file!")
+        add_dict_dups = Counter([m[1] for m in temp_add_dict])
+        for y in [b for b in add_dict_dups.keys() if add_dict_dups[b] > 1]:
+            print("\'%s\' appears %s times" % (y, add_dict_dups[y]))
+        exit()
+    final_add_dict = {}
+    for m in temp_add_dict:
+        try:
+            final_add_dict.setdefault(m[1], ref_dict[m[0]])
+        except KeyError:
+            final_add_dict.setdefault(m[1], m[0])
+
+    ref_dict.update(final_add_dict)
