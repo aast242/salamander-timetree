@@ -51,8 +51,15 @@ parser.add_argument("--add_dict", type=str, default="",
 
 args = parser.parse_args()
 
+# update GOI dict
 if args.add_dict != "":
     utils.update_gene_dict_from_file(args.add_dict, dv.MITO_GOIS)
+# make gene description dict
+GENE_DESCRIPTION = {gn: [] for gn in sorted(list(set(dv.MITO_GOIS.values())))}
+for long_gn in dv.MITO_GOIS.keys():
+    GENE_DESCRIPTION[dv.MITO_GOIS[long_gn]].append(long_gn)
+for gn in GENE_DESCRIPTION.keys():
+    GENE_DESCRIPTION[gn] = sorted(GENE_DESCRIPTION[gn], key=len, reverse=True)[0]
 
 
 def create_queries(file_dict):
@@ -365,11 +372,19 @@ if __name__ == '__main__':
             seq_pol = -1
         foc_range = SeqFeature.FeatureLocation(min(foc_range), max(foc_range), strand=seq_pol)
 
+        """
+        long_desc = "label not included in dictionary"
+        try:
+            long_desc = GENE_DESCRIPTION[line[dv.ORDER_DICT["gene"]]]
+        except KeyError:
+            pass
+        """
+
         all_seqrecords.append(
             SeqIO.SeqRecord(foc_range.extract(temp_gbk_entry.seq),
                             id="%s.%s" % (line[dv.ORDER_DICT["accession"]], line[dv.ORDER_DICT["gene"]]),
                             name="%s.%s" % (line[dv.ORDER_DICT["accession"]], line[dv.ORDER_DICT["gene"]]),
-                            description="%s %s" % (line[dv.ORDER_DICT["species"]], line[dv.ORDER_DICT["gene"]])
+                            description="%s %s" % (line[dv.ORDER_DICT["species"]], line[dv.ORDER_DICT["gene"]],)
                             )
         )
 
@@ -377,7 +392,7 @@ if __name__ == '__main__':
     # rewrite the pared genbank table and remove the old table
     if not args.gbk_file:
         SeqIO.write([gbk_dictionary[k] for k in gbk_dictionary.keys()],
-                    "%s-scraped_gene_table.gbk" % entry_file_name,
+                    "%s-scraped_genes_table.gbk" % entry_file_name,
                     "genbank")
         os.remove(combined_gbk_filename)
 
@@ -387,7 +402,7 @@ if __name__ == '__main__':
                 "fasta")
 
     # write the extracted genic features
-    with open("%s-scraped_gene_table.txt" % entry_file_name, 'w') as f:
+    with open("%s-scraped_genes_table.txt" % entry_file_name, 'w') as f:
         for line in all_features:
             for entry in line:
                 f.write(str(entry))

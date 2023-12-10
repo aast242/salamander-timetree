@@ -5,14 +5,14 @@ __author__ = "Alexander Stewart"
 
 
 class ProgDefaults:
-    ENTREZ_EMAIL = ""
-    ENTREZ_API = ""
+    ENTREZ_EMAIL = "alexanderstewart@arizona.edu"
+    ENTREZ_API = "674fc3e7107d2cb8c63d82b674d498101808"
 
     ORDER_DICT = {"species": 0, "accession": 1, "range": 2, "gene": 3, "date": 4, "length": 5}
     OUTDIR_PREFIX = "scraped_sequences"
     COMB_FILE = "all_chunks"
     CHUNK_SIZE = 2000
-    EXCLUDE_TERMS = ["unisexual", "cf.", " x "]
+    EXCLUDE_TERMS = ["unisexual", " x "]
     FOCAL_SEQFILE_NAME = "focal_scraped_sequences.fasta"
     SPP_FILE_NAME = "captured_caudate_taxa"
 
@@ -104,7 +104,8 @@ class ProgDefaults:
                         'fat tumor suppressor-like protein 4': 'fat4',
                         'fat atypical cadherin 4': 'fat4',
                         'protocadherin fat 4': 'fat4',
-                        "fatj": 'fat4',
+
+                        "fatj": 'fatj',
 
                         'kiaa1239': 'kiaa1239',
                         'kiaa1239 protein': 'kiaa1239',
@@ -328,7 +329,7 @@ class ProgDefaults:
         5: "spen",
         10: "mast2",
         11: "jun",
-        13: "adgrl2",
+        13: "ahe_lphn2",
         14: "znf644",
         15: "plppr4",
         16: "s1pr1",
@@ -357,7 +358,7 @@ class ProgDefaults:
         62: "rnf103",
         63: "ranbp2",
         65: "zeb2",
-        69: "ttn",
+        69: "ahe_ttn",
         78: "bmpr2",
         80: "klf7",
         82: "znf142",
@@ -377,17 +378,17 @@ class ProgDefaults:
         112: "skil",
         113: "ghsr",
         115: "kiaa0232",
-        116: "nwd2",
+        116: "ahe_kiaa1239",
         118: "shroom3",
         121: "ndnf",
-        122: "ankrd50",
-        123: "fat4",
+        122: "ahe_ankrd50",
+        123: "fat4_p1",
         124: "fatj",
-        125: "fat4",
+        125: "fat4_p2",
         126: "pcdh18",
         127: "nr3c2",
         130: "sorbs2",
-        132: "fat1",
+        132: "ahe_fat1",
         135: "gcnt4",
         136: "apc",
         137: "sema6a",
@@ -417,7 +418,7 @@ class ProgDefaults:
         174: "arid1b",
         175: "dll1",
         177: "sp4",
-        179: "pclo",
+        179: "ahe_pclo",
         182: "cttnbp2",
         183: "plxna4",
         184: "nf-m",
@@ -481,8 +482,8 @@ class ProgDefaults:
         272: "nuak1",
         274: "ccdc92",
         275: "tmem132d",
-        278: "sacs",
-        279: "sacs",
+        278: "sacs_p1",
+        279: "sacs_p2",
         280: "gpr12",
         281: "stard13",
         282: "frem3",
@@ -499,8 +500,8 @@ class ProgDefaults:
         299: "begain",
         304: "disp2",
         305: "rhov",
-        306: "vps18",
-        307: "vps18",
+        306: "vps18_p1",
+        307: "vps18_p2",
         309: "ttbk2",
         310: "map1a",
         311: "sema6d",
@@ -524,11 +525,11 @@ class ProgDefaults:
         345: "chst8",
         346: "asxl3",
         347: "setbp1",
-        348: "dsel",
+        348: "ahe_dsel",
         349: "tshz1",
         350: "sall3",
-        353: "znf536",
-        354: "znf536",
+        353: "znf536_p1",
+        354: "znf536_p2",
         355: "tshz3",
         358: "flrt3",
         359: "rin2",

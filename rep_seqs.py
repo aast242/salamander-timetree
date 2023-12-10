@@ -269,6 +269,9 @@ if __name__ == '__main__':
 
     uniq_spp = [x for x in uniq_spp if x not in novels]
 
+    print(novels)
+    print([x for x in uniq_spp if " sp." in x])
+    exit()
     # filter out undefined species
     uniq_spp = [x for x in uniq_spp if " sp." not in x]
     # write a taxonomy file

@@ -43,6 +43,7 @@ args = parser.parse_args()
 if args.add_dict != "":
     utils.update_gene_dict_from_file(args.add_dict, dv.MITO_GOIS)
 
+
 if __name__ == '__main__':
     ncbi_annotations = utils.parse_file_nohead_tolist(args.organism_genes)
     ann_order_dict = ncbi_annotations.pop(0)
@@ -99,11 +100,22 @@ if __name__ == '__main__':
             gois[gene] = ""
         else:
             gois[gene] = gois[gene][0]
-            new_id = "%s:%s-%s:%s" % (gois[gene][ann_order_dict["Accession"]],
-                                      gois[gene][ann_order_dict["Begin"]],
-                                      gois[gene][ann_order_dict["End"]],
-                                      gois[gene][ann_order_dict["Orientation"]])
+
+            try:
+                if gois[gene][ann_order_dict["Transcripts accession"]] != "":
+                    new_id = gois[gene][ann_order_dict["Transcripts accession"]]
+                else:
+                    new_id = "%s:%s-%s:%s" % (gois[gene][ann_order_dict["Accession"]],
+                                              gois[gene][ann_order_dict["Begin"]],
+                                              gois[gene][ann_order_dict["End"]],
+                                              gois[gene][ann_order_dict["Orientation"]])
+            except IndexError:
+                new_id = "%s:%s-%s:%s" % (gois[gene][ann_order_dict["Accession"]],
+                                          gois[gene][ann_order_dict["Begin"]],
+                                          gois[gene][ann_order_dict["End"]],
+                                          gois[gene][ann_order_dict["Orientation"]])
             gois[gene] = new_id
+
     key_list = list(gois.keys())
     key_list.insert(0, "filename")
     value_list = list(gois.values())
