@@ -1,6 +1,6 @@
 from collections import Counter
 from defaults import ProgDefaults as dv
-
+from Bio import SeqRecord, Seq
 
 # from https://stackoverflow.com/questions/312443/how-do-i-split-a-list-into-equally-sized-chunks
 # authored by Ned Batchelder
@@ -126,3 +126,25 @@ def update_gene_dict_from_file(update_file, ref_dict):
             final_add_dict.setdefault(m[1], m[0])
 
     ref_dict.update(final_add_dict)
+
+
+# default SeqIO doesn't like the way the phylips are formatted
+def parse_phylip(phylip_path):
+    parse_list = []
+    cycle = 0
+    with open(phylip_path, "r") as f:
+        while True:
+            # reads line-by-line to reduce memory load
+            line = f.readline()
+            if not line:
+                break
+            if line.startswith("#"):
+                continue
+            if cycle != 0:
+                line = line.rstrip().split()
+                parse_list.append(SeqRecord.SeqRecord(seq=Seq.Seq(line[1]),
+                                                      id=line[0],
+                                                      name=line[0],
+                                                      description=""))
+            cycle += 1
+    return parse_list

@@ -41,6 +41,7 @@ if __name__ == '__main__':
     fasta_list = os.listdir(args.fasta_dir)
     fasta_prefix = str(Path(args.fasta_dir).resolve())
     print(fasta_prefix)
+    exclude_ids = []
     for gene_file in fasta_list:
         seq_recs = list(SeqIO.parse("%s/%s" % (fasta_prefix, gene_file), "fasta"))
         outgroup_seqs = []
@@ -58,6 +59,9 @@ if __name__ == '__main__':
                 locus_name = gene_name.split("_")[2].lower()
             outgroup_seqs[i] = [outgroup_seqs[i].id, curr_sp, gene_name, locus_name]
         current_gene = gene_file.split("_")[0]
+        if current_gene == "ahe":
+            current_gene = gene_file.split("_")[1]
+
         outgroup_counter = dict(Counter([i[3] for i in outgroup_seqs if i[3] != ""]))
         try:
             if len(outgroup_counter) > 0:
@@ -65,16 +69,46 @@ if __name__ == '__main__':
                 if outgroup_match_ct < 4:
                     print("only %s outgroups matched %s..." % (outgroup_match_ct, current_gene))
                     print(outgroup_counter)
+                    potentials = list(outgroup_counter.keys())
+                    potentials.remove(current_gene)
+                    for potential_id in potentials:
+                        syn_q = input("is %s a valid synonym? (y/n): " % potential_id).lower()
+                        if syn_q.startswith("y"):
+                            pass
+                        else:
+                            for j in outgroup_seqs:
+                                if j[3] == potential_id:
+                                    exclude_ids.append(j[0].replace("%s_" % j[1], ""))
                     print()
-
         except KeyError:
+            # If the gene starts with desmo, we don't know what it is.
+            # Require all outgroups to match or be synonyms to keep any outgroup sequences
             if current_gene.startswith("desmo"):
-                pass
+                print(current_gene)
+                print(outgroup_counter)
+                if len(outgroup_counter) > 1:
+                    syn_q = input("are all of the outgroup sequences synonymous? (y/n): ").lower()
+                    if syn_q.startswith("y"):
+                        pass
+                    else:
+                        for j in outgroup_seqs:
+                            exclude_ids.append(j[0].replace("%s_" % j[1], ""))
+
+                print()
             else:
                 print("outgroup seqs, but none match %s" % current_gene)
                 print(outgroup_counter)
                 for potential_id in outgroup_counter.keys():
-                    syn_q = input("is %s a valid synonym? (y/n)" % potential_id).lower()
-                    if syn_q.startswith("n"):
-
+                    syn_q = input("is %s a valid synonym? (y/n): " % potential_id).lower()
+                    if syn_q.startswith("y"):
+                        pass
+                    else:
+                        temp_exclude = [j[0].replace("%s_" % j[1], "") for j in outgroup_seqs if j[3] == potential_id]
+                        print(temp_exclude)
+                        exclude_ids.extend(temp_exclude)
                 print()
+
+    with open("outgroup_pruning_excludes.txt", "w") as f:
+        for line in exclude_ids:
+            f.write(line)
+            f.write("\n")
