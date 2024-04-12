@@ -319,7 +319,7 @@ if __name__ == '__main__':
                         f.write("\n")
             exit()
 
-        elif args.gbk.file:
+        elif args.gbk_file:
             print("Parsing combined GenBank file for all queried genes...")
             comb_gbk_file = SeqIO.parse(args.gene_file, "genbank")
             gbk_dictionary = make_gbk_dict(comb_gbk_file)

@@ -62,7 +62,6 @@ for k in dv.HIME_TO_SYMBOL.keys():
             print("--------------")
     except KeyError:
         print("%s wasn't a key!" % k)
-exit()
 # dv.HIME_TO_SYMBOL = {k: "HL%s_%s" % (k, dv.HIME_TO_SYMBOL[k]) for k in dv.HIME_TO_SYMBOL.keys()}
 SYMBOL_TO_HIME = {dv.HIME_TO_SYMBOL[k]: k for k in dv.HIME_TO_SYMBOL.keys()}
 

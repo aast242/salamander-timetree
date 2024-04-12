@@ -36,7 +36,7 @@ parser.add_argument("everson_fasta_dir", help='A *DIRECTORY* containing all of t
 parser.add_argument("translation_table", type=str,
                     help='A taxonomy translation table from DWW specimen numbers to species')
 parser.add_argument("--quiet", action="store_true", help="Don't print when keys aren't present")
-parser.add_argument("--find_uniq", action='store_true', help="Don't try to find distinct sequences for each sp")
+parser.add_argument("--find_uniq", action='store_true', help="Try to find distinct sequences for each sp")
 
 # >KEBL01000001.1.prdm16 Caecilia tentaculata prdm16
 
