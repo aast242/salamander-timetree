@@ -5,5 +5,5 @@ do
  sed -i "s/${old_name}/${new_name}/g" mito_simple_extracted.fasta 
 done < rename_file 
 
-make_taxfile.py mito_simple_extracted.fasta --collapse_subs --pre_fmt --exclude paramesotriton_exclude  
+make_taxfile.py mito_simple_extracted.fasta --collapse_subs --pre_fmt --exclude  seqs_to_exclude  
 

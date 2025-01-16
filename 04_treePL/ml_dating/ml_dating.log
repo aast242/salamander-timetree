@@ -1,0 +1,402 @@
+setting the maximum number of threads to 8
+set thorough: true (MAY TAKE A WHILE)
+setting log penalty
+setting opt: 3
+setting optad: 3
+setting optcvad: 1
+outfile: fullTree_ML_dated.tre
+finished reading config file
+using system clock for random number seed = 1721293413
+tiny branch length at Tylototriton_thaiorum. setting to 2.1694468e-06
+tiny branch length at Tylototriton_notialis. setting to 2.1694468e-06
+tiny branch length at Bolitoglossa_mombachoensis. setting to 2.1694468e-06
+tiny branch length at Isthmura_gigantea. setting to 2.1694468e-06
+tiny branch length at internal node. setting to 2.1694468e-06
+tiny branch length at internal node. setting to 2.1694468e-06
+tiny branch length at internal node. setting to 2.1694468e-06
+setting ALYTOIDEA min: 125
+setting AMNIOTA min: 318
+setting ANEIDESGNATHUS min: 20.4
+setting BATRACHIA min: 247.2
+setting CAUDATA min: 125
+setting CHIOMERT min: 20.4
+setting CRYPTOBRANCHIDAE min: 56.8
+setting DICAMPAMBY min: 56.8
+setting KARSINEAPLETHODON min: 20.4
+setting LISSAMPH min: 270.6
+setting PELOMEGO min: 86.3
+setting PELONEO min: 113
+setting PIPOIDEA min: 148.1
+setting PLEECHTYL min: 44
+setting PROTEIDAE min: 56.8
+setting SALAMANDRALYCIA min: 33.9
+setting SALAMANDROIDEA min: 72.1
+setting SARCOP min: 408
+setting SIRENIDAE min: 46.2
+setting TARICHANOTO min: 23
+setting TETRAPODA min: 337
+setting TRITURUS min: 23.8
+setting AMNIOTA max: 332.9
+setting BATRACHIA max: 251.2
+setting LISSAMPH max: 337
+setting SARCOP max: 427.9
+setting TETRAPODA max: 351
+preorder prep
+calculating character durations
+setting min and max
+setting up all constraints
+getting feasible start dates
+start rate 0.0012397248
+numparams:796
+initial calc: 1.6810027e+08
+LF SIM
+exit siman: 38618035
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 6173288.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 6173288.7
+LF SIM
+exit siman: 3183228.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 3183219.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 3183219.5
+LF SIM
+exit siman: 2359632
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 2359588.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 2359588.5
+LF SIM
+exit siman: 1949706.2
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1949691.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1949691.6
+LF SIM
+exit siman: 1721124.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1721123
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1721123
+LF SIM
+exit siman: 1611833.9
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1611832
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1611832
+LF SIM
+exit siman: 1547122.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1547120.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1547120.1
+LF SIM
+exit siman: 1481928.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1481909.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1481909.8
+LF SIM
+exit siman: 1434998.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1434995.3
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1434995.3
+LF SIM
+exit siman: 1404679.2
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1404676.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1404676.4
+LF SIM
+exit siman: 1384525.3
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1384525.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1384525.1
+LF SIM
+exit siman: 1363792.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1363782.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1363782.8
+LF SIM
+exit siman: 1346736.2
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1346736.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1346736.1
+LF SIM
+exit siman: 1333655.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1333654.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1333654.7
+LF SIM
+exit siman: 1320607.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1320606.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1320606.6
+LF SIM
+exit siman: 1310836.9
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1310834.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1310834.4
+LF SIM
+exit siman: 1303883.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1303883.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1303883.5
+LF SIM
+exit siman: 1297831.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1297830.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1297830.6
+LF SIM
+exit siman: 1290934.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1290934
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1290934
+LF SIM
+exit siman: 1285150.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1285150.3
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1285150.3
+LF SIM
+exit siman: 1280686.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1280686.3
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1280686.3
+LF SIM
+exit siman: 1276020.9
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1276020.9
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1276020.9
+LF SIM
+exit siman: 1270499.3
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1270498.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1270498.7
+LF SIM
+exit siman: 1267508.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1267508.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1267508.4
+LF SIM
+exit siman: 1264159.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1264159.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1264159.4
+LF SIM
+exit siman: 1261653.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1261652.7
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1261652.6
+LF SIM
+exit siman: 1258480.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1258480.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1258480.8
+LF SIM
+exit siman: 1255322.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1255321.3
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1255321.3
+LF SIM
+exit siman: 1252192.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1252192.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1252192.6
+LF SIM
+exit siman: 1249706.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1249706.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1249706.1
+LF SIM
+exit siman: 1247112
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1247110.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1247110.5
+LF SIM
+exit siman: 1245020.9
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1245020.5
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1245020.5
+LF SIM
+exit siman: 1243570.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1243570.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1243570.1
+LF SIM
+exit siman: 1241690.6
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1241690.2
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1241690.2
+LF SIM
+exit siman: 1239878.4
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1239877.8
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1239877.8
+LF SIM
+exit siman: 1237629
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1237628.1
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1237628.1
+LF SIM
+exit siman: 1236634
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 1236634
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 1236634
+exited lf converged :1
+lf calc: 1236634
+numparams:2385
+smoothing:1e-10
+1236635.1
+exit siman: 680683.69
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 83294.719
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 78405.057
+exit siman: 29489.863
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 27901.504
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 26866.615
+exit siman: 14612.327
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 14330.89
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 13128.863
+exit siman: 10969.76
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 10642.212
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 10413.015
+exit siman: 9680.6607
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 9474.767
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 8112.8941
+exit siman: 8112.8941
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 8112.8941
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 8112.8941
+exit siman: 8112.8941
+setting NLOPT: LD_MMA
+result: 3
+after opt calc1: 8112.8941
+setting NLOPT: LD_MMA
+result: 3
+after opt calc2: 8112.8941
+after opt calc: 8112.8941

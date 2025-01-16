@@ -1,3 +1,4 @@
+echo $!
 start_dir="$PWD"
 mkdir -p gene_trees
 for i in fastas/*.fasta; do	
@@ -10,6 +11,6 @@ for i in fastas/*.fasta; do
 	echo "---------"
 	mkdir -p ${gene_name}
 	cd $gene_name
-	raxmlHPC-PTHREADS-SSE3 -s ${fasta_path} -n ${gene_name}_raxml.out -m GTRCAT -f a -T 32 -x $RANDOM -N 50 -p $RANDOM -k
+	raxmlHPC-PTHREADS-SSE3 -s ${fasta_path} -n ${gene_name}_raxml.tre -m GTRCAT -f a -T 32 -x $RANDOM -N 100 -p $RANDOM -k
 	cd $start_dir
 done

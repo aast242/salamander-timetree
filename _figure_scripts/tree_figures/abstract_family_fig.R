@@ -41,7 +41,7 @@ extend_val = 3
 bar_sz = 2
 txt_sz = 10
 st_num = 2
-timetree = read.beast(file="boostrap_nexus.nex")
+timetree = read.beast(file=tt_fp)
 tt = ggtree(timetree, size = 1.75, ladderize = FALSE, layout="fan") +
   theme_transparent() + 
   # Amniota: 4 taxa + Latimeria
@@ -57,91 +57,91 @@ tt = ggtree(timetree, size = 1.75, ladderize = FALSE, layout="fan") +
   #geom_cladelab(node=787, label="Cryptobranchidae", barcolor=fill1,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill1, fontsize=txt_sz) +  
-  geom_cladelab(node=787, label="", barcolor=fill1,
+  geom_cladelab(node=830, label="", barcolor=fill1,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill1, fontsize=txt_sz) +
-  geom_highlight(node=787, fill=fill1, extend=extend_val) +
+  geom_highlight(node=830, fill=fill1, extend=extend_val) +
   
   
   #geom_cladelab(node=789, label="Hynobiidae", barcolor=fill2,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill2, fontsize=txt_sz) +  
-  geom_cladelab(node=789, label="", barcolor=fill2,
+  geom_cladelab(node=835, label="", barcolor=fill2,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill2, fontsize=txt_sz) +  
-  geom_highlight(node=789, fill=fill2, extend=extend_val) + 
+  geom_highlight(node=835, fill=fill2, extend=extend_val) + 
   
   
   #geom_cladelab(node=879, label="Sirenidae", barcolor=fill3,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill3, fontsize=txt_sz) +  
-  geom_cladelab(node=879, label="", barcolor=fill3,
+  geom_cladelab(node=934, label="", barcolor=fill3,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill3, fontsize=txt_sz) +  
-  geom_highlight(node=879, fill=fill3, extend=extend_val) + 
+  geom_highlight(node=934, fill=fill3, extend=extend_val) + 
   
   
   #geom_cladelab(node=887, label="Dicamptodontidae", barcolor=fill4,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill4, fontsize=txt_sz) +  
-  geom_cladelab(node=887, label="", barcolor=fill4,
+  geom_cladelab(node=942, label="", barcolor=fill4,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill4, fontsize=txt_sz) +  
-  geom_highlight(node=887, fill=fill4, extend=extend_val) + 
+  geom_highlight(node=942, fill=fill4, extend=extend_val) + 
   
   
   #geom_cladelab(node=890, label="Ambystomatidae", barcolor=fill5,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill5, fontsize=txt_sz) +  
-  geom_cladelab(node=890, label="", barcolor=fill5,
+  geom_cladelab(node=945, label="", barcolor=fill5,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill5, fontsize=txt_sz) +  
-  geom_highlight(node=890, fill=fill5, extend=extend_val) + 
+  geom_highlight(node=945, fill=fill5, extend=extend_val) + 
   
   
   #geom_cladelab(node=922, label="Salamandridae", barcolor=fill6,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill6, fontsize=txt_sz) +  
-  geom_cladelab(node=922, label="", barcolor=fill6,
+  geom_cladelab(node=971, label="", barcolor=fill6,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill6, fontsize=txt_sz) +  
-  geom_highlight(node=922, fill=fill6, extend=extend_val) + 
+  geom_highlight(node=971, fill=fill6, extend=extend_val) + 
   
   
   #geom_cladelab(node=1044, label="Proteidae", barcolor=fill7,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill7, fontsize=txt_sz) +  
-  geom_cladelab(node=1044, label="", barcolor=fill7,
+  geom_cladelab(node=1107, label="", barcolor=fill7,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill7, fontsize=txt_sz) +  
-  geom_highlight(node=1044, fill=fill7, extend=extend_val) + 
+  geom_highlight(node=1107, fill=fill7, extend=extend_val) + 
   
   
   #geom_cladelab(node=1050, label="Rhyacotritonidae", barcolor=fill8,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill8, fontsize=txt_sz) +  
-  geom_cladelab(node=1050, label="", barcolor=fill8,
+  geom_cladelab(node=1115, label="", barcolor=fill8,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill8, fontsize=txt_sz) +  
-  geom_highlight(node=1050, fill=fill8, extend=extend_val) + 
+  geom_highlight(node=1115, fill=fill8, extend=extend_val) + 
   
   
   #geom_cladelab(node=1054, label="Amphiumidae", barcolor=fill9,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill9, fontsize=txt_sz) +  
-  geom_cladelab(node=1054, label="", barcolor=fill9,
+  geom_cladelab(node=1119, label="", barcolor=fill9,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill9, fontsize=txt_sz) +  
-  geom_highlight(node=1054, fill=fill9, extend=extend_val) +   
+  geom_highlight(node=1119, fill=fill9, extend=extend_val) +   
   
   
   #geom_cladelab(node=1056, label="Plethodontidae", barcolor=fill10,
   #              barsize=bar_sz, align=TRUE, angle="auto",
   #              fontface="bold", textcolor=fill10, fontsize=txt_sz) +  
-  geom_cladelab(node=1056, label="", barcolor=fill10,
+  geom_cladelab(node=1121, label="", barcolor=fill10,
                 barsize=bar_sz, align=TRUE, angle="auto",
                 fontface="bold", textcolor=fill10, fontsize=txt_sz) +  
-  geom_highlight(node=1056, fill=fill10, extend=extend_val) + 
+  geom_highlight(node=1121, fill=fill10, extend=extend_val) + 
   
   
   xlim(NA, 500)

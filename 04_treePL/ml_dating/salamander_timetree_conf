@@ -1,0 +1,126 @@
+[Input tree file]
+treefile = ./postReview_RAxML_bestTree_ML.pxrr.tre
+#treefile = ./pyron_BS_chunk.tre
+
+[General settings]
+numsites = 460947
+nthreads = 8
+thorough
+log_pen
+
+[Fossil calibration 1: Sarcopterygia, 408-427.9 MYA]
+mrca = SARCOP Latimeria_chalumnae Plethodon_cinereus
+min = SARCOP 408
+max = SARCOP 427.9
+
+[Fossil calibration 2: Tetrapoda, 337-351 MYA]
+mrca = TETRAPODA Homo_sapiens Andrias_davidianus
+min = TETRAPODA 337
+max = TETRAPODA 351
+
+[Fossil calibration 3: Amniota, 318.0-332.9 MYA]
+mrca = AMNIOTA Homo_sapiens Gallus_gallus
+min = AMNIOTA 318.0
+max = AMNIOTA 332.9
+
+[Fossil calibration 4: Lissamphibia, 270.6-337 MYA]
+mrca = LISSAMPH Rhinatrema_bivittatum Andrias_davidianus
+min = LISSAMPH 270.6
+max = LISSAMPH 337
+
+[Fossil calibration 5: Batrachia, 247.2-251.2 MYA]
+mrca = BATRACHIA Ascaphus_montanus Andrias_davidianus
+min = BATRACHIA 247.2
+max = BATRACHIA 251.2
+
+[Fossil calibration 6: Alytoidea, 125.0- MYA]
+mrca = ALYTOIDEA Discoglossus_pictus Bombina_microdeladigitora
+min = ALYTOIDEA 125.0
+
+[Fossil calibration 7: Pipoidea, 148.1- MYA]
+mrca = PIPOIDEA Xenopus_tropicalis Rhinophrynus_dorsalis
+min = PIPOIDEA 148.1
+
+[Fossil calibration 8: Clade of Pelobatidae + Megophryidae, 86.3- MYA]
+mrca = PELOMEGO Scaphiopus_couchii Leptobrachium_chapaense
+min = PELOMEGO 86.3
+
+[Fossil calibration 9: Clade of Pelobatoidea + Neobatrachia, 113- MYA]
+mrca = PELONEO Heleophryne_purcelli Leptobrachium_chapaense
+min = PELONEO 113
+
+[Fossil calibration 10: Caudata, 125.0- MYA]
+mrca = CAUDATA Andrias_davidianus Plethodon_cinereus
+min = CAUDATA 125.0
+
+[Fossil calibration 11: Salamandroidea, 72.1- MYA]
+mrca = SALAMANDROIDEA Ambystoma_mexicanum Plethodon_cinereus
+min = SALAMANDROIDEA 72.1
+
+[Fossil calibration 12: Karsinea + Plethodon, 20.4- MYA]
+mrca = KARSINEAPLETHODON Karsenia_koreana Plethodon_cinereus
+min = KARSINEAPLETHODON 20.4
+
+[Fossil calibration 13: Aneides + Phaeognathus + Desmognathus, 20.4- MYA]
+mrca = ANEIDESGNATHUS Aneides_aeneus Desmognathus_apalachicolae
+min = ANEIDESGNATHUS 20.4
+
+[Fossil calibration 14: Salamandra + Lyciasalamandra, 33.9- MYA]
+mrca = SALAMANDRALYCIA Salamandra_salamandra Lyciasalamandra_luschani
+min = SALAMANDRALYCIA 33.9
+
+[Fossil calibration 15: Taricha + Notophthalmus, 23.0- MYA]
+mrca = TARICHANOTO Taricha_torosa Notophthalmus_viridescens
+min = TARICHANOTO 23.0
+
+[Fossil calibration 16: Triturus, 23.8- MYA]
+mrca = TRITURUS Triturus_anatolicus Triturus_carnifex
+min = TRITURUS 23.8
+
+[Fossil calibration 17: Pleurodeles + Echinotriton + Tylototriton, 44- MYA]
+mrca = PLEECHTYL Pleurodeles_waltl Tylototriton_sini
+min = PLEECHTYL 44
+
+[Fossil calibration 18: Chioglossa + Mertensiella, 20.4- MYA]
+mrca = CHIOMERT Chioglossa_lusitanica Mertensiella_caucasica
+min = CHIOMERT 20.4
+
+[Fossil calibration 19: Dicamptodontidae + Ambystomatidae, 56.8- MYA]
+mrca = DICAMPAMBY Dicamptodon_copei Ambystoma_mexicanum
+min = DICAMPAMBY 56.8
+
+[Fossil calibration 20: Proteidae, 56.8- MYA]
+mrca = PROTEIDAE Proteus_anguinus Necturus_alabamensis
+min = PROTEIDAE 56.8
+
+[Fossil calibration 21: Cryptobranchidae, 56.8- MYA]
+mrca = CRYPTOBRANCHIDAE Cryptobranchus_alleganiensis Andrias_davidianus
+min = CRYPTOBRANCHIDAE 56.8
+
+[Fossil calibration 22: Sirenidae, 46.2- MYA]
+mrca = SIRENIDAE Siren_lacertina Pseudobranchus_striatus
+min = SIRENIDAE 46.2
+
+[Priming command]
+#prime
+
+
+[Best optimization parameters]
+opt = 3
+optad = 3
+optcvad = 1
+
+[Cross-validation analysis]
+#randomcv
+#cviter = 2
+#cvsimaniter = 5000
+#cvstart = 1e+10
+#cvstop = 1e-15
+#cvmultstep = 0.1
+#cvoutfile = ./randomcv.txt
+
+[Best smoothing value]
+smooth = 1e-10
+
+[Output file of dating step]
+outfile = fullTree_ML_dated.tre

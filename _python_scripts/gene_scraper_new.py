@@ -123,7 +123,11 @@ def dump_acc_to_gbk(query_list):
             record = Entrez.read(handle)
             count = record['Count']
             handle.close()
-
+            count = int(count)
+            if count + 1000 < 10000:
+                count += 1000
+            elif count + 500 < 10000:
+                count += 500
             # print("%s search results!" % count)
             # print("Fetching them from GenBank...")
 

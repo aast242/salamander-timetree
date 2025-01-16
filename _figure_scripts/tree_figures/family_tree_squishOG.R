@@ -11,7 +11,7 @@ library(dispRity)
 library(phytools)
 
 #### Main text figure ####
-timetree = read.beast(file="boostrap_nexus.nex")
+timetree = read.beast(file="figtree_reroot.nex")
 
 fam_spp = c("Latimeria_chalumnae", "Homo_sapiens",
             "Rhinatrema_bivittatum", "Ascaphus_montanus",
@@ -114,12 +114,13 @@ tt$layers = c(geom_rect(aes(xmax = 0,
                             xmin = -2.580, 
                             ymin = 0, 
                             ymax = Inf), alpha = 0.6, fill="grey"), tt$layers) 
+tt
 ggsave("fig1_family_tree.pdf", plot=tt, device="pdf", limitsize = FALSE, 
        width=10, height=10)
 
 
 #### Supplementary figure w/ 95% conf ####
-timetree = read.beast(file="fullTree_95conf_dated.nex")
+timetree = read.beast(file="supplementary_files/S5_95conf_ML_tree.nex")
 
 fam_spp = c("Latimeria_chalumnae", "Homo_sapiens",
             "Rhinatrema_bivittatum", "Ascaphus_montanus",
@@ -134,8 +135,9 @@ timetree@phylo = ladderize(timetree@phylo)
 
 # rename things to families
 family_names = c(
-  "Ambystomatidae", "Dicamptodontidae", "Salamandridae",
-  "Proteidae", "Plethodontidae","Amphiumidae","Rhyacotritonidae", "Sirenidae",
+  "Plethodontidae", "Amphiumidae","Rhyacotritonidae", "Proteidae",
+  "Salamandridae", "Ambystomatidae", "Dicamptodontidae", 
+  "Sirenidae",
   "Hynobiidae", "Cryptobranchidae",  
   "Anura",
   "Gymnophiona",
@@ -153,7 +155,7 @@ outgroup_names = c(
 # solution by brunoasm in the ggtree github
 # https://github.com/YuLab-SMU/ggtree/issues/306
 tree_img = revts(ggtree(timetree, size = 1, ladderize = FALSE) ) %>%
-  ggtree::rotate(20) %>% ggtree::rotate(27) %>% ggtree::rotate(25)
+  ggtree::rotate(20) %>% ggtree::rotate(27) %>% ggtree::rotate(24)
 
 minmax = t(matrix(unlist(tree_img$data$height_0.95_HPD),nrow=2))
 bar_df = as.data.frame(minmax) %>%
@@ -238,5 +240,6 @@ tt$layers = c(geom_rect(aes(xmax = 0,
                             xmin = -2.580, 
                             ymin = 0, 
                             ymax = Inf), alpha = 0.6, fill="grey"), tt$layers) 
+tt
 ggsave("S1_95conf_family_tree.pdf", plot=tt, device="pdf", limitsize = FALSE, 
        width=10, height=10 )

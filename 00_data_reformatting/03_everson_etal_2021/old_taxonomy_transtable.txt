@@ -1,5 +1,5 @@
-#2561	Ambystoma opacum
-#3233	Ambystoma texanum
+2561	Ambystoma opacum
+3233	Ambystoma texanum
 373	Ambystoma tigrinum
 374	Ambystoma tigrinum
 461	Ambystoma tigrinum
